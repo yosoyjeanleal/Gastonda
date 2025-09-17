@@ -3,328 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora P2P USDT-VES</title>
+    <title>Calculadora P2P USDT/Bolívares</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-        :root {
-            --bg-color: #1e1e2d;
-            --container-bg: #2d2d44;
-            --text-color: #f1f1f9;
-            --input-bg: #3c3c54;
-            --button-bg: #5a5a7d;
-            --button-hover: #6c6c94;
-            --accent-color: #92d95b;
-            --border-color: #4c4c64;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .calculator-container {
-            background-color: var(--container-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        h1 {
-            font-size: 2em;
-            text-align: center;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            font-size: 1.4em;
-            color: var(--text-color);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-            margin-top: 0;
-        }
-
-        .section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 0.9em;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            border-radius: 8px;
+        * {
             box-sizing: border-box;
-            font-size: 1em;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        button {
-            padding: 12px;
-            border: none;
-            background-color: var(--button-bg);
-            color: var(--text-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            font-weight: 600;
-            font-size: 1em;
-        }
-
-        button:hover {
-            background-color: var(--button-hover);
-        }
-
-        .result {
-            background-color: var(--input-bg);
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .result p {
             margin: 0;
-            font-size: 0.9em;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        .result .highlight {
-            font-weight: bold;
-            color: var(--accent-color);
+        
+        body {
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
         }
-
-        .bcv-manager {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
         }
-
-        .bcv-manager .current-bcv {
-            font-size: 1em;
+        
+        h1 {
             text-align: center;
+            color: #2a71d5;
+            margin-bottom: 20px;
         }
-
-        .bcv-input-container {
+        
+        .description {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #2a71d5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1c5bb8;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #2a71d5;
+        }
+        
+        .result-item {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
         }
-
-        .bcv-input-container input {
-            flex-grow: 1;
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            font-weight: bold;
+            color: #2a71d5;
+            font-size: 1.1em;
         }
-
-        @media (max-width: 500px) {
-            .calculator-container {
-                padding: 20px;
-                border-radius: 0;
-                box-shadow: none;
-            }
+        
+        .commission-note {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-
-    <div class="calculator-container">
-        <h1>Calculadora P2P USDT-VES 🇻🇪</h1>
-
-        <div class="section bcv-manager">
-            <h2>Gestión del Precio BCV 🏦</h2>
-            <p class="current-bcv">
-                Precio BCV actual: <span id="currentBcvDisplay">Cargando...</span>
-            </p>
-            <div class="input-group bcv-input-container">
-                <input type="number" id="bcvInput" placeholder="Introduce el precio del BCV" step="0.01">
-                <button id="saveBcvBtn">Guardar</button>
+    <div class="container">
+        <h1>Calculadora P2P USDT/Bolívares</h1>
+        <p class="description">Calcula tus ganancias en operaciones de compra y venta de USDT</p>
+        
+        <div class="form-group">
+            <label for="usdt-amount">Cantidad de USDT a operar:</label>
+            <input type="number" id="usdt-amount" min="0" step="0.01" placeholder="Ej: 100" value="100">
+        </div>
+        
+        <div class="form-group">
+            <label for="sell-price">Precio de venta (Bs/USDT):</label>
+            <input type="number" id="sell-price" min="0" step="0.01" placeholder="Ej: 255" value="255">
+        </div>
+        
+        <div class="form-group">
+            <label for="buy-price">Precio de compra (Bs/USDT):</label>
+            <input type="number" id="buy-price" min="0" step="0.01" placeholder="Ej: 245" value="245">
+        </div>
+        
+        <button id="calculate-btn">Calcular ganancias</button>
+        
+        <div class="results" id="results" style="display: none;">
+            <h3>Resultados:</h3>
+            <div class="result-item">
+                <span>Ingresos por venta:</span>
+                <span id="sale-income">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Comisión por venta (0.05 USDT):</span>
+                <span id="sale-commission">-0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Comisión por anuncio (0.2%):</span>
+                <span id="ad-commission">-0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Costo de compra:</span>
+                <span id="purchase-cost">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Ganancia neta:</span>
+                <span id="net-profit">0.00 Bs</span>
             </div>
         </div>
-
-        <hr>
-
-        <div class="section">
-            <h2>¿Cuántos USDT consigo? (Compra) 🛒</h2>
-            <div class="input-group">
-                <label for="vesToSpend">Bolívares a gastar:</label>
-                <input type="number" id="vesToSpend" placeholder="Ej. 100000" step="0.01">
-            </div>
-            <div class="input-group">
-                <label for="usdtBuyPrice">Precio de venta del USDT:</label>
-                <input type="number" id="usdtBuyPrice" placeholder="Ej. 38.5" step="0.01">
-            </div>
-            <button id="calculateBuyBtn">Calcular USDT</button>
-            <div id="buyResult" class="result" style="display: none;">
-                <p>Recibes aproximadamente: <span class="highlight" id="buyUsdtResult"></span> USDT</p>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="section">
-            <h2>¿Cuántos Bolívares recibo? (Venta) 💸</h2>
-            <div class="input-group">
-                <label for="usdtToSell">USDT a vender:</label>
-                <input type="number" id="usdtToSell" placeholder="Ej. 100" step="0.01">
-            </div>
-            <div class="input-group">
-                <label for="usdtSellPrice">Precio de venta del USDT:</label>
-                <input type="number" id="usdtSellPrice" placeholder="Ej. 38.8" step="0.01">
-            </div>
-            <button id="calculateSellBtn">Calcular Bolívares</button>
-            <div id="sellResult" class="result" style="display: none;">
-                <p>Recibes antes de comisión: <span class="highlight" id="sellVesPreCommission"></span> VES</p>
-                <p>Comisión de Binance (0.2%): <span class="highlight" id="commissionAmountUsdt"></span> USDT</p>
-                <p>Recibes final en Bolívares: <span class="highlight" id="sellVesFinal"></span> VES</p>
-                <p>Diferencia con BCV: <span class="highlight" id="bcvComparison"></span></p>
-            </div>
-        </div>
+        
+        <p class="commission-note">Nota: La comisión por venta es de 0.05 USDT y por anuncio es del 0.2%</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const COMMISSION_RATE = 0.002; // 0.2% de comisión
-
-            // Elementos del DOM
-            const bcvInput = document.getElementById('bcvInput');
-            const saveBcvBtn = document.getElementById('saveBcvBtn');
-            const currentBcvDisplay = document.getElementById('currentBcvDisplay');
-
-            const vesToSpendInput = document.getElementById('vesToSpend');
-            const usdtBuyPriceInput = document.getElementById('usdtBuyPrice');
-            const calculateBuyBtn = document.getElementById('calculateBuyBtn');
-            const buyResultDiv = document.getElementById('buyResult');
-            const buyUsdtResultSpan = document.getElementById('buyUsdtResult');
-
-            const usdtToSellInput = document.getElementById('usdtToSell');
-            const usdtSellPriceInput = document.getElementById('usdtSellPrice');
-            const calculateSellBtn = document.getElementById('calculateSellBtn');
-            const sellResultDiv = document.getElementById('sellResult');
-            const sellVesPreCommissionSpan = document.getElementById('sellVesPreCommission');
-            const commissionAmountUsdtSpan = document.getElementById('commissionAmountUsdt');
-            const sellVesFinalSpan = document.getElementById('sellVesFinal');
-            const bcvComparisonSpan = document.getElementById('bcvComparison');
-
-            // --- Funciones para el precio BCV ---
-            function loadBcv() {
-                const bcvPrice = localStorage.getItem('bcvPrice');
-                if (bcvPrice) {
-                    currentBcvDisplay.textContent = `Bs. ${parseFloat(bcvPrice).toFixed(2)}`;
-                } else {
-                    currentBcvDisplay.textContent = 'No guardado';
-                }
-            }
-
-            function saveBcv() {
-                const bcvValue = parseFloat(bcvInput.value);
-                if (bcvValue > 0) {
-                    localStorage.setItem('bcvPrice', bcvValue);
-                    loadBcv();
-                    alert('Precio del BCV guardado correctamente. ✅');
-                } else {
-                    alert('Por favor, introduce un precio válido para el BCV.');
-                }
-            }
-
-            // --- Función para la compra (cuántos USDT consigo) ---
-            function calculateBuy() {
-                const vesToSpend = parseFloat(vesToSpendInput.value);
-                const usdtPrice = parseFloat(usdtBuyPriceInput.value);
-
-                if (isNaN(vesToSpend) || isNaN(usdtPrice) || vesToSpend <= 0 || usdtPrice <= 0) {
-                    alert('Por favor, ingresa montos válidos para la compra.');
-                    buyResultDiv.style.display = 'none';
-                    return;
-                }
-
-                const usdtReceived = vesToSpend / usdtPrice;
-                buyUsdtResultSpan.textContent = usdtReceived.toFixed(2);
-                buyResultDiv.style.display = 'block';
-            }
-
-            // --- Función para la venta (cuántos Bolívares recibo) ---
-            function calculateSell() {
-                const usdtToSell = parseFloat(usdtToSellInput.value);
-                const usdtSellPrice = parseFloat(usdtSellPriceInput.value);
-                const bcvPrice = parseFloat(localStorage.getItem('bcvPrice'));
-
-                if (isNaN(usdtToSell) || isNaN(usdtSellPrice) || usdtToSell <= 0 || usdtSellPrice <= 0) {
-                    alert('Por favor, ingresa montos válidos para la venta.');
-                    sellResultDiv.style.display = 'none';
-                    return;
-                }
-
-                // Cálculo de la venta
-                const preCommissionVes = usdtToSell * usdtSellPrice;
-                const commissionUsdt = usdtToSell * COMMISSION_RATE;
-                const finalUsdt = usdtToSell - commissionUsdt;
-                const finalVes = finalUsdt * usdtSellPrice;
-
-                // Actualizar la interfaz
-                sellVesPreCommissionSpan.textContent = preCommissionVes.toFixed(2);
-                commissionAmountUsdtSpan.textContent = commissionUsdt.toFixed(2);
-                sellVesFinalSpan.textContent = finalVes.toFixed(2);
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultsDiv = document.getElementById('results');
+            
+            calculateBtn.addEventListener('click', function() {
+                // Obtener valores de los inputs
+                const usdtAmount = parseFloat(document.getElementById('usdt-amount').value) || 0;
+                const sellPrice = parseFloat(document.getElementById('sell-price').value) || 0;
+                const buyPrice = parseFloat(document.getElementById('buy-price').value) || 0;
                 
-                // Comparación con BCV
-                if (bcvPrice) {
-                    const bcvAmount = usdtToSell * bcvPrice;
-                    const difference = finalVes - bcvAmount;
-                    const percentageDiff = (difference / bcvAmount) * 100;
-                    
-                    if (difference > 0) {
-                        bcvComparisonSpan.textContent = `+ ${difference.toFixed(2)} VES (${percentageDiff.toFixed(2)}%) por encima del BCV. 🎉`;
-                        bcvComparisonSpan.style.color = 'var(--accent-color)';
-                    } else if (difference < 0) {
-                        bcvComparisonSpan.textContent = `- ${Math.abs(difference).toFixed(2)} VES (${Math.abs(percentageDiff).toFixed(2)}%) por debajo del BCV. 😕`;
-                        bcvComparisonSpan.style.color = '#e74c3c'; // Rojo para pérdida
-                    } else {
-                        bcvComparisonSpan.textContent = `Sin diferencia con el BCV.`;
-                        bcvComparisonSpan.style.color = 'var(--text-color)';
-                    }
-                } else {
-                    bcvComparisonSpan.textContent = 'Guarda el precio BCV para comparar.';
-                    bcvComparisonSpan.style.color = 'var(--text-color)';
+                // Validar que los valores sean positivos
+                if (usdtAmount <= 0 || sellPrice <= 0 || buyPrice <= 0) {
+                    alert('Por favor, ingresa valores válidos mayores a cero.');
+                    return;
                 }
-
-                sellResultDiv.style.display = 'block';
-            }
-
-            // --- Event Listeners ---
-            saveBcvBtn.addEventListener('click', saveBcv);
-            calculateBuyBtn.addEventListener('click', calculateBuy);
-            calculateSellBtn.addEventListener('click', calculateSell);
-
-            // Cargar el precio BCV al iniciar
-            loadBcv();
+                
+                // Calcular ingresos por venta
+                const saleIncome = usdtAmount * sellPrice;
+                
+                // Calcular comisiones
+                const saleCommissionUsdt = 0.05; // Comisión fija por venta en USDT
+                const saleCommissionBs = saleCommissionUsdt * sellPrice; // Comisión por venta en Bs
+                
+                const adCommissionPercentage = 0.002; // 0.2%
+                const adCommissionBs = saleIncome * adCommissionPercentage; // Comisión por anuncio en Bs
+                
+                // Calcular costo de compra
+                const purchaseCost = usdtAmount * buyPrice;
+                
+                // Calcular ganancia neta
+                const netProfit = saleIncome - saleCommissionBs - adCommissionBs - purchaseCost;
+                
+                // Mostrar resultados
+                document.getElementById('sale-income').textContent = saleIncome.toFixed(2) + ' Bs';
+                document.getElementById('sale-commission').textContent = '-' + saleCommissionBs.toFixed(2) + ' Bs';
+                document.getElementById('ad-commission').textContent = '-' + adCommissionBs.toFixed(2) + ' Bs';
+                document.getElementById('purchase-cost').textContent = '-' + purchaseCost.toFixed(2) + ' Bs';
+                
+                const netProfitElement = document.getElementById('net-profit');
+                netProfitElement.textContent = netProfit.toFixed(2) + ' Bs';
+                
+                // Cambiar color según si hay ganancia o pérdida
+                if (netProfit >= 0) {
+                    netProfitElement.style.color = '#2a71d5';
+                } else {
+                    netProfitElement.style.color = '#e74c3c';
+                }
+                
+                // Mostrar resultados
+                resultsDiv.style.display = 'block';
+            });
         });
     </script>
 </body>
