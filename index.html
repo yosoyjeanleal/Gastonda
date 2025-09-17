@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora P2P USDT/Bolívares</title>
+    <title>Calculadora P2P - Estilo Binance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --binance-black: #0c0e14;
+            --binance-gray: #1e2026;
+            --binance-dark-gray: #181a21;
+            --binance-yellow: #f0b90b;
+            --binance-light-gray: #eaecef;
+            --binance-green: #03a66d;
+            --binance-red: #cf304a;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,31 +24,78 @@
         }
         
         body {
-            background-color: #f5f8fa;
-            color: #333;
+            background-color: var(--binance-black);
+            color: var(--binance-light-gray);
             line-height: 1.6;
             padding: 20px;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            background-color: var(--binance-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .header {
+            background-color: var(--binance-dark-gray);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #2b2f3a;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .logo-icon {
+            color: var(--binance-yellow);
+            font-size: 28px;
+            margin-right: 10px;
         }
         
         h1 {
-            text-align: center;
-            color: #2a71d5;
-            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 600;
         }
         
-        .description {
+        .tabs {
+            display: flex;
+            background-color: var(--binance-dark-gray);
+            border-bottom: 1px solid #2b2f3a;
+        }
+        
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            flex: 1;
             text-align: center;
-            margin-bottom: 25px;
-            color: #666;
+        }
+        
+        .tab.active {
+            background-color: var(--binance-gray);
+            color: var(--binance-yellow);
+            border-bottom: 2px solid var(--binance-yellow);
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         .form-group {
@@ -47,23 +105,47 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 500;
+            color: #9aa2b1;
         }
         
         input[type="number"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 14px;
+            background-color: var(--binance-dark-gray);
+            border: 1px solid #2b2f3a;
+            border-radius: 4px;
+            color: var(--binance-light-gray);
             font-size: 16px;
         }
         
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--binance-yellow);
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa2b1;
+        }
+        
+        .input-icon input {
+            padding-left: 40px;
+        }
+        
         button {
-            background-color: #2a71d5;
-            color: white;
+            background-color: var(--binance-yellow);
+            color: var(--binance-black);
             border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
+            padding: 14px 20px;
+            border-radius: 4px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
@@ -72,23 +154,29 @@
         }
         
         button:hover {
-            background-color: #1c5bb8;
+            background-color: #f8d44c;
         }
         
         .results {
             margin-top: 30px;
             padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            border-left: 4px solid #2a71d5;
+            background-color: var(--binance-dark-gray);
+            border-radius: 4px;
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--binance-yellow);
         }
         
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2b2f3a;
         }
         
         .result-item:last-child {
@@ -96,69 +184,202 @@
             margin-bottom: 0;
             padding-bottom: 0;
             font-weight: bold;
-            color: #2a71d5;
             font-size: 1.1em;
+        }
+        
+        .positive {
+            color: var(--binance-green);
+        }
+        
+        .negative {
+            color: var(--binance-red);
         }
         
         .commission-note {
             margin-top: 15px;
             font-size: 0.9em;
-            color: #666;
+            color: #9aa2b1;
             text-align: center;
+        }
+        
+        .info-box {
+            background-color: rgba(240, 185, 11, 0.1);
+            border-left: 3px solid var(--binance-yellow);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora P2P USDT/Bolívares</h1>
-        <p class="description">Calcula tus ganancias en operaciones de compra y venta de USDT</p>
-        
-        <div class="form-group">
-            <label for="usdt-amount">Cantidad de USDT a operar:</label>
-            <input type="number" id="usdt-amount" min="0" step="0.01" placeholder="Ej: 100" value="100">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-coins logo-icon"></i>
+            </div>
+            <h1>Calculadora P2P USDT/Bolívares</h1>
         </div>
         
-        <div class="form-group">
-            <label for="sell-price">Precio de venta (Bs/USDT):</label>
-            <input type="number" id="sell-price" min="0" step="0.01" placeholder="Ej: 255" value="255">
+        <div class="tabs">
+            <div class="tab active" data-tab="trade">Compra/Venta P2P</div>
+            <div class="tab" data-tab="deposit">Desde Depósito Bancario</div>
         </div>
         
-        <div class="form-group">
-            <label for="buy-price">Precio de compra (Bs/USDT):</label>
-            <input type="number" id="buy-price" min="0" step="0.01" placeholder="Ej: 245" value="245">
+        <div class="content">
+            <!-- Pestaña de Compra/Venta P2P -->
+            <div class="tab-content active" id="trade-tab">
+                <div class="info-box">
+                    Calcula tus ganancias en operaciones de compra y venta de USDT en el mercado P2P
+                </div>
+                
+                <div class="form-group">
+                    <label for="usdt-amount">Cantidad de USDT a operar:</label>
+                    <div class="input-icon">
+                        <i class="fas fa-coins"></i>
+                        <input type="number" id="usdt-amount" min="0" step="0.01" placeholder="Ej: 100" value="100">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sell-price">Precio de venta (Bs/USDT):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-arrow-up"></i>
+                        <input type="number" id="sell-price" min="0" step="0.01" placeholder="Ej: 255" value="255">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buy-price">Precio de compra (Bs/USDT):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-arrow-down"></i>
+                        <input type="number" id="buy-price" min="0" step="0.01" placeholder="Ej: 245" value="245">
+                    </div>
+                </div>
+                
+                <button id="calculate-btn">Calcular ganancias</button>
+                
+                <div class="results" id="results" style="display: none;">
+                    <div class="result-title">Resultados:</div>
+                    <div class="result-item">
+                        <span>Ingresos por venta:</span>
+                        <span id="sale-income">0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Comisión por venta (0.05 USDT):</span>
+                        <span class="negative" id="sale-commission">-0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Comisión por anuncio (0.2%):</span>
+                        <span class="negative" id="ad-commission">-0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Costo de compra:</span>
+                        <span class="negative" id="purchase-cost">-0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Ganancia neta:</span>
+                        <span id="net-profit">0.00 Bs</span>
+                    </div>
+                </div>
+                
+                <p class="commission-note">Nota: La comisión por venta es de 0.05 USDT y por anuncio es del 0.2%</p>
+            </div>
+            
+            <!-- Pestaña de Depósito Bancario -->
+            <div class="tab-content" id="deposit-tab">
+                <div class="info-box">
+                    Calcula la conversión desde depósito bancario hasta USDT, considerando todas las comisiones
+                </div>
+                
+                <div class="form-group">
+                    <label for="deposit-amount">Monto a depositar (Bs):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <input type="number" id="deposit-amount" min="0" step="0.01" placeholder="Ej: 100000" value="100000">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transfer-fee">Comisión por transferencia (%):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-percentage"></i>
+                        <input type="number" id="transfer-fee" min="0" step="0.01" placeholder="Ej: 5" value="5">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-price">Precio de compra USDT (Bs):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                        <input type="number" id="purchase-price" min="0" step="0.01" placeholder="Ej: 245" value="245">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-fee">Comisión por compra (USDT):</label>
+                    <div class="input-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <input type="number" id="purchase-fee" min="0" step="0.01" placeholder="Ej: 0.05" value="0.05">
+                    </div>
+                </div>
+                
+                <button id="calculate-deposit-btn">Calcular conversión</button>
+                
+                <div class="results" id="deposit-results" style="display: none;">
+                    <div class="result-title">Resultados:</div>
+                    <div class="result-item">
+                        <span>Monto depositado:</span>
+                        <span id="deposited-amount">0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Comisión por transferencia:</span>
+                        <span class="negative" id="transfer-fee-amount">-0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Saldo después de comisión:</span>
+                        <span id="balance-after-fee">0.00 Bs</span>
+                    </div>
+                    <div class="result-item">
+                        <span>USDT disponibles para compra:</span>
+                        <span id="available-usdt">0.00 USDT</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Comisión por compra:</span>
+                        <span class="negative" id="purchase-fee-amount">-0.00 USDT</span>
+                    </div>
+                    <div class="result-item">
+                        <span>USDT finales:</span>
+                        <span id="final-usdt">0.00 USDT</span>
+                    </div>
+                </div>
+                
+                <p class="commission-note">Nota: Esta calculadora considera el proceso completo desde el depósito bancario hasta la compra de USDT</p>
+            </div>
         </div>
-        
-        <button id="calculate-btn">Calcular ganancias</button>
-        
-        <div class="results" id="results" style="display: none;">
-            <h3>Resultados:</h3>
-            <div class="result-item">
-                <span>Ingresos por venta:</span>
-                <span id="sale-income">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Comisión por venta (0.05 USDT):</span>
-                <span id="sale-commission">-0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Comisión por anuncio (0.2%):</span>
-                <span id="ad-commission">-0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Costo de compra:</span>
-                <span id="purchase-cost">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Ganancia neta:</span>
-                <span id="net-profit">0.00 Bs</span>
-            </div>
-        </div>
-        
-        <p class="commission-note">Nota: La comisión por venta es de 0.05 USDT y por anuncio es del 0.2%</p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Funcionalidad de pestañas
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Desactivar todas las pestañas
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+                    
+                    // Activar la pestaña seleccionada
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Calculadora de Compra/Venta P2P
             const calculateBtn = document.getElementById('calculate-btn');
             const resultsDiv = document.getElementById('results');
             
@@ -201,14 +422,65 @@
                 
                 // Cambiar color según si hay ganancia o pérdida
                 if (netProfit >= 0) {
-                    netProfitElement.style.color = '#2a71d5';
+                    netProfitElement.className = 'positive';
                 } else {
-                    netProfitElement.style.color = '#e74c3c';
+                    netProfitElement.className = 'negative';
                 }
                 
                 // Mostrar resultados
                 resultsDiv.style.display = 'block';
             });
+            
+            // Calculadora de Depósito Bancario
+            const calculateDepositBtn = document.getElementById('calculate-deposit-btn');
+            const depositResultsDiv = document.getElementById('deposit-results');
+            
+            calculateDepositBtn.addEventListener('click', function() {
+                // Obtener valores de los inputs
+                const depositAmount = parseFloat(document.getElementById('deposit-amount').value) || 0;
+                const transferFee = parseFloat(document.getElementById('transfer-fee').value) || 0;
+                const purchasePrice = parseFloat(document.getElementById('purchase-price').value) || 0;
+                const purchaseFee = parseFloat(document.getElementById('purchase-fee').value) || 0;
+                
+                // Validar que los valores sean positivos
+                if (depositAmount <= 0 || transferFee < 0 || purchasePrice <= 0 || purchaseFee < 0) {
+                    alert('Por favor, ingresa valores válidos.');
+                    return;
+                }
+                
+                // Calcular comisión por transferencia
+                const transferFeeAmount = depositAmount * (transferFee / 100);
+                const balanceAfterFee = depositAmount - transferFeeAmount;
+                
+                // Calcular USDT disponibles para compra
+                const availableUsdt = balanceAfterFee / purchasePrice;
+                
+                // Calcular USDT finales después de comisión de compra
+                const finalUsdt = availableUsdt - purchaseFee;
+                
+                // Mostrar resultados
+                document.getElementById('deposited-amount').textContent = depositAmount.toFixed(2) + ' Bs';
+                document.getElementById('transfer-fee-amount').textContent = '-' + transferFeeAmount.toFixed(2) + ' Bs';
+                document.getElementById('balance-after-fee').textContent = balanceAfterFee.toFixed(2) + ' Bs';
+                document.getElementById('available-usdt').textContent = availableUsdt.toFixed(2) + ' USDT';
+                document.getElementById('purchase-fee-amount').textContent = '-' + purchaseFee.toFixed(2) + ' USDT';
+                
+                const finalUsdtElement = document.getElementById('final-usdt');
+                finalUsdtElement.textContent = finalUsdt.toFixed(2) + ' USDT';
+                
+                // Cambiar color según si hay ganancia o pérdida
+                if (finalUsdt >= 0) {
+                    finalUsdtElement.className = 'positive';
+                } else {
+                    finalUsdtElement.className = 'negative';
+                }
+                
+                // Mostrar resultados
+                depositResultsDiv.style.display = 'block';
+            });
+            
+            // Calcular automáticamente al cargar la página
+            calculateBtn.click();
         });
     </script>
 </body>
