@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora P2P Binance</title>
+    <title>Calculadora P2P Binance (VES/USDT)</title>
     <style>
         :root {
             --primary: #f0b90b;
-            --secondary: #1e2026;
-            --accent: #0c0f15;
-            --text: #f8f9fa;
-            --border: #2b3139;
-            --success: #00a57b;
-            --danger: #f84960;
+            --secondary: #1e2329;
+            --accent: #0c0f12;
+            --text: #eaecef;
+            --border: #474d57;
+            --success: #03a66d;
+            --danger: #cf304a;
         }
         
         * {
@@ -26,20 +26,23 @@
             background-color: var(--secondary);
             color: var(--text);
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
             background-color: var(--accent);
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
         }
         
         h1 {
@@ -47,51 +50,29 @@
             margin-bottom: 10px;
         }
         
-        .price-info {
-            background-color: var(--secondary);
-            padding: 15px;
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(30, 35, 41, 0.5);
             border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border: 1px solid var(--border);
         }
         
-        .price-info span {
-            font-weight: bold;
+        h2 {
             color: var(--primary);
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
         }
         
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-weight: bold;
-            opacity: 0.7;
-            transition: opacity 0.3s;
-        }
-        
-        .tab.active {
-            opacity: 1;
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .form-group {
+        .input-group {
             margin-bottom: 15px;
         }
         
         label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 500;
         }
         
         input, select {
@@ -101,6 +82,12 @@
             border: 1px solid var(--border);
             background-color: var(--secondary);
             color: var(--text);
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
         }
         
         button {
@@ -117,48 +104,49 @@
         }
         
         button:hover {
-            background-color: #d6a40c;
+            background-color: #c99a0c;
         }
         
-        .results {
-            margin-top: 30px;
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
             background-color: var(--secondary);
-            padding: 20px;
-            border-radius: 8px;
+            border-left: 4px solid var(--primary);
         }
         
-        .result-item {
+        .comparison {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(12, 15, 18, 0.3);
+            border-radius: 5px;
         }
         
-        .result-item:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            color: var(--primary);
-            font-size: 1.2em;
+        .positive {
+            color: var(--success);
         }
         
-        .hidden {
-            display: none;
+        .negative {
+            color: var(--danger);
         }
         
-        .update-btn {
-            background-color: var(--secondary);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 5px 10px;
-            font-size: 0.8em;
+        .info-text {
+            font-size: 14px;
+            color: #a0a5b1;
+            margin-top: 5px;
         }
         
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.9em;
-            opacity: 0.7;
+        @media (min-width: 768px) {
+            .columns {
+                display: flex;
+                gap: 20px;
+            }
+            
+            .columns > div {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -166,238 +154,180 @@
     <div class="container">
         <header>
             <h1>Calculadora P2P Binance</h1>
-            <p>Calcula tus ganancias y comisiones en transacciones P2P</p>
+            <p>Calculadora para operaciones con Bolívares (VES) y USDT</p>
         </header>
         
-        <div class="price-info">
-            <div>Precio actual del USDT: <span id="current-price">Cargando...</span></div>
-            <button id="update-price" class="update-btn">Actualizar precio</button>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab active" data-tab="buy">Comprar</button>
-            <button class="tab" data-tab="sell">Vender</button>
-            <button class="tab" data-tab="create-ad">Crear Anuncio</button>
-        </div>
-        
-        <div id="buy-form" class="form-content">
-            <div class="form-group">
-                <label for="buy-amount">Cantidad a comprar (USDT)</label>
-                <input type="number" id="buy-amount" placeholder="Ej: 100" min="0">
+        <div class="section">
+            <h2>Configuración del Precio BCV</h2>
+            <div class="input-group">
+                <label for="bcv-price">Precio oficial BCV (VES por USD):</label>
+                <input type="number" id="bcv-price" step="0.0001" placeholder="Ej: 36.50">
+                <p class="info-text">Este precio se guardará localmente en tu navegador</p>
             </div>
-            <div class="form-group">
-                <label for="buy-price">Precio por USDT (Bs)</label>
-                <input type="number" id="buy-price" placeholder="Precio en bolívares" min="0" step="0.01">
-            </div>
-            <button id="calculate-buy">Calcular compra</button>
-        </div>
-        
-        <div id="sell-form" class="form-content hidden">
-            <div class="form-group">
-                <label for="sell-amount">Cantidad a vender (USDT)</label>
-                <input type="number" id="sell-amount" placeholder="Ej: 100" min="0">
-            </div>
-            <div class="form-group">
-                <label for="sell-price">Precio por USDT (Bs)</label>
-                <input type="number" id="sell-price" placeholder="Precio en bolívares" min="0" step="0.01">
-            </div>
-            <button id="calculate-sell">Calcular venta</button>
-        </div>
-        
-        <div id="create-ad-form" class="form-content hidden">
-            <div class="form-group">
-                <label for="ad-type">Tipo de anuncio</label>
-                <select id="ad-type">
-                    <option value="buy">Comprar USDT</option>
-                    <option value="sell">Vender USDT</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="ad-amount">Cantidad total (USDT)</label>
-                <input type="number" id="ad-amount" placeholder="Ej: 1000" min="0">
-            </div>
-            <div class="form-group">
-                <label for="ad-price">Precio por USDT (Bs)</label>
-                <input type="number" id="ad-price" placeholder="Precio en bolívares" min="0" step="0.01">
-            </div>
-            <button id="calculate-ad">Calcular comisiones</button>
-        </div>
-        
-        <div id="results" class="results hidden">
-            <h2>Resultados de la transacción</h2>
-            <div class="result-item">
-                <span>Total sin comisiones:</span>
-                <span id="total-without-fees">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Comisión de Binance (0.5%):</span>
-                <span id="binance-fee">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Comisión por transacción:</span>
-                <span id="transaction-fee">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Total a recibir/pagar:</span>
-                <span id="total-amount">0.00 Bs</span>
-            </div>
-            <div class="result-item">
-                <span>Ganancia estimada:</span>
-                <span id="profit">0.00 Bs</span>
+            <button id="save-bcv">Guardar Precio BCV</button>
+            <div class="result" id="bcv-status">
+                Precio BCV no configurado aún
             </div>
         </div>
         
-        <footer>
-            <p>Esta calculadora es solo para fines informativos. Los precios y comisiones pueden variar.</p>
-        </footer>
+        <div class="columns">
+            <div class="section">
+                <h2>Compra de USDT</h2>
+                <div class="input-group">
+                    <label for="ves-amount">Cantidad en Bolívares (VES) a invertir:</label>
+                    <input type="number" id="ves-amount" placeholder="Ej: 1000000">
+                </div>
+                <div class="input-group">
+                    <label for="p2p-price">Precio P2P (VES por USDT):</label>
+                    <input type="number" id="p2p-price" step="0.0001" placeholder="Ej: 37.20">
+                </div>
+                <button id="calculate-buy">Calcular USDT que recibiré</button>
+                <div class="result" id="buy-result">
+                    Resultado aparecerá aquí
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Venta de USDT</h2>
+                <div class="input-group">
+                    <label for="usdt-amount">Cantidad en USDT a vender:</label>
+                    <input type="number" id="usdt-amount" placeholder="Ej: 100">
+                </div>
+                <div class="input-group">
+                    <label for="sell-price">Precio de venta P2P (VES por USDT):</label>
+                    <input type="number" id="sell-price" step="0.0001" placeholder="Ej: 37.50">
+                </div>
+                <button id="calculate-sell">Calcular Bolívares que recibiré</button>
+                <div class="result" id="sell-result">
+                    Resultado aparecerá aquí
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Precio actual del USDT en bolívares (simulado)
-        let currentUSDTPrice = 38.5;
-        
-        // Elementos DOM
-        const currentPriceElement = document.getElementById('current-price');
-        const updatePriceButton = document.getElementById('update-price');
-        const tabs = document.querySelectorAll('.tab');
-        const formContents = document.querySelectorAll('.form-content');
-        const resultsSection = document.getElementById('results');
-        
-        // Inicializar la página
         document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar precio actual
-            currentPriceElement.textContent = `${currentUSDTPrice} Bs`;
+            // Constantes
+            const COMISION = 0.002; // 0.2%
             
-            // Configurar event listeners para las pestañas
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // Actualizar pestañas activas
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Mostrar formulario correspondiente
-                    formContents.forEach(form => form.classList.add('hidden'));
-                    document.getElementById(`${tabId}-form`).classList.remove('hidden');
-                    
-                    // Ocultar resultados
-                    resultsSection.classList.add('hidden');
-                });
-            });
+            // Elementos del DOM
+            const bcvInput = document.getElementById('bcv-price');
+            const saveBcvBtn = document.getElementById('save-bcv');
+            const bcvStatus = document.getElementById('bcv-status');
             
-            // Botón para actualizar precio (simulado)
-            updatePriceButton.addEventListener('click', function() {
-                // Simular una pequeña variación en el precio
-                const variation = (Math.random() - 0.5) * 0.5;
-                currentUSDTPrice = parseFloat((currentUSDTPrice + variation).toFixed(2));
-                currentPriceElement.textContent = `${currentUSDTPrice} Bs`;
+            const vesAmountInput = document.getElementById('ves-amount');
+            const p2pPriceInput = document.getElementById('p2p-price');
+            const calculateBuyBtn = document.getElementById('calculate-buy');
+            const buyResult = document.getElementById('buy-result');
+            
+            const usdtAmountInput = document.getElementById('usdt-amount');
+            const sellPriceInput = document.getElementById('sell-price');
+            const calculateSellBtn = document.getElementById('calculate-sell');
+            const sellResult = document.getElementById('sell-result');
+            
+            // Cargar precio BCV guardado
+            const savedBcvPrice = localStorage.getItem('bcvPrice');
+            if (savedBcvPrice) {
+                bcvInput.value = savedBcvPrice;
+                bcvStatus.textContent = `Precio BCV configurado: ${savedBcvPrice} VES/USD. Última actualización: ${localStorage.getItem('bcvLastUpdate') || 'Desconocida'}`;
+                bcvStatus.classList.add('positive');
+            }
+            
+            // Guardar precio BCV
+            saveBcvBtn.addEventListener('click', function() {
+                const bcvPrice = parseFloat(bcvInput.value);
+                if (isNaN(bcvPrice) || bcvPrice <= 0) {
+                    bcvStatus.textContent = 'Por favor ingresa un precio válido para el BCV';
+                    bcvStatus.classList.remove('positive');
+                    bcvStatus.classList.add('negative');
+                    return;
+                }
                 
-                alert('Precio actualizado correctamente');
+                localStorage.setItem('bcvPrice', bcvPrice);
+                const now = new Date().toLocaleString();
+                localStorage.setItem('bcvLastUpdate', now);
+                
+                bcvStatus.textContent = `Precio BCV guardado: ${bcvPrice} VES/USD. Actualizado: ${now}`;
+                bcvStatus.classList.remove('negative');
+                bcvStatus.classList.add('positive');
             });
             
-            // Configurar calculadoras
-            document.getElementById('calculate-buy').addEventListener('click', function() {
-                calculateTransaction('buy');
+            // Calcular compra de USDT
+            calculateBuyBtn.addEventListener('click', function() {
+                const vesAmount = parseFloat(vesAmountInput.value);
+                const p2pPrice = parseFloat(p2pPriceInput.value);
+                
+                if (isNaN(vesAmount) || isNaN(p2pPrice) || vesAmount <= 0 || p2pPrice <= 0) {
+                    buyResult.textContent = 'Por favor ingresa valores válidos';
+                    buyResult.classList.add('negative');
+                    return;
+                }
+                
+                // Cálculo de la comisión
+                const totalAmount = vesAmount;
+                const tradingAmount = totalAmount / (1 + COMISION);
+                const commissionAmount = totalAmount - tradingAmount;
+                
+                // USDT que se recibirá
+                const usdtReceived = tradingAmount / p2pPrice;
+                
+                buyResult.innerHTML = `
+                    <strong>Recibirás:</strong> ${usdtReceived.toFixed(6)} USDT<br>
+                    <strong>Comisión (0.2%):</strong> ${commissionAmount.toFixed(2)} VES<br>
+                    <strong>Monto destinado a trading:</strong> ${tradingAmount.toFixed(2)} VES
+                `;
+                buyResult.classList.remove('negative');
             });
             
-            document.getElementById('calculate-sell').addEventListener('click', function() {
-                calculateTransaction('sell');
-            });
-            
-            document.getElementById('calculate-ad').addEventListener('click', function() {
-                calculateAd();
+            // Calcular venta de USDT
+            calculateSellBtn.addEventListener('click', function() {
+                const usdtAmount = parseFloat(usdtAmountInput.value);
+                const sellPrice = parseFloat(sellPriceInput.value);
+                const bcvPrice = parseFloat(localStorage.getItem('bcvPrice')) || 0;
+                
+                if (isNaN(usdtAmount) || isNaN(sellPrice) || usdtAmount <= 0 || sellPrice <= 0) {
+                    sellResult.textContent = 'Por favor ingresa valores válidos';
+                    sellResult.classList.add('negative');
+                    return;
+                }
+                
+                // Cálculo de la comisión
+                const totalVes = usdtAmount * sellPrice;
+                const tradingAmount = totalVes / (1 + COMISION);
+                const commissionAmount = totalVes - tradingAmount;
+                
+                // Mostrar resultados
+                sellResult.innerHTML = `
+                    <strong>Recibirás:</strong> ${tradingAmount.toFixed(2)} VES<br>
+                    <strong>Comisión (0.2%):</strong> ${commissionAmount.toFixed(2)} VES<br>
+                    <strong>Valor total antes de comisión:</strong> ${totalVes.toFixed(2)} VES
+                `;
+                
+                // Comparación con precio BCV si está disponible
+                if (bcvPrice > 0) {
+                    const bcvEquivalent = usdtAmount * bcvPrice;
+                    const difference = tradingAmount - bcvEquivalent;
+                    const percentageDiff = (difference / bcvEquivalent) * 100;
+                    
+                    let comparisonClass = 'positive';
+                    if (difference < 0) comparisonClass = 'negative';
+                    
+                    sellResult.innerHTML += `
+                        <div class="comparison">
+                            <div>Comparación con BCV:</div>
+                            <div class="${comparisonClass}">
+                                ${difference >= 0 ? '+' : ''}${difference.toFixed(2)} VES (${percentageDiff.toFixed(2)}%)
+                            </div>
+                        </div>
+                        <div class="info-text">
+                            Valor según BCV: ${bcvEquivalent.toFixed(2)} VES
+                        </div>
+                    `;
+                }
+                
+                sellResult.classList.remove('negative');
             });
         });
-        
-        // Función para calcular transacciones de compra/venta
-        function calculateTransaction(type) {
-            const amount = parseFloat(document.getElementById(`${type}-amount`).value);
-            const price = parseFloat(document.getElementById(`${type}-price`).value);
-            
-            if (!amount || !price || amount <= 0 || price <= 0) {
-                alert('Por favor, ingresa valores válidos');
-                return;
-            }
-            
-            const totalWithoutFees = amount * price;
-            const binanceFee = totalWithoutFees * 0.005; // 0.5% de comisión de Binance
-            const transactionFee = totalWithoutFees * 0.01; // 1% de comisión por transacción
-            
-            let totalAmount, profit;
-            
-            if (type === 'buy') {
-                totalAmount = totalWithoutFees + binanceFee + transactionFee;
-                profit = 0; // No hay ganancia al comprar
-            } else {
-                totalAmount = totalWithoutFees - binanceFee - transactionFee;
-                profit = totalAmount - (amount * currentUSDTPrice);
-            }
-            
-            // Mostrar resultados
-            document.getElementById('total-without-fees').textContent = `${totalWithoutFees.toFixed(2)} Bs`;
-            document.getElementById('binance-fee').textContent = `${binanceFee.toFixed(2)} Bs`;
-            document.getElementById('transaction-fee').textContent = `${transactionFee.toFixed(2)} Bs`;
-            document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)} Bs`;
-            document.getElementById('profit').textContent = `${profit.toFixed(2)} Bs`;
-            
-            // Colorear la ganancia según sea positiva o negativa
-            const profitElement = document.getElementById('profit');
-            if (profit > 0) {
-                profitElement.style.color = 'var(--success)';
-            } else if (profit < 0) {
-                profitElement.style.color = 'var(--danger)';
-            } else {
-                profitElement.style.color = 'var(--text)';
-            }
-            
-            resultsSection.classList.remove('hidden');
-        }
-        
-        // Función para calcular comisiones al crear un anuncio
-        function calculateAd() {
-            const type = document.getElementById('ad-type').value;
-            const amount = parseFloat(document.getElementById('ad-amount').value);
-            const price = parseFloat(document.getElementById('ad-price').value);
-            
-            if (!amount || !price || amount <= 0 || price <= 0) {
-                alert('Por favor, ingresa valores válidos');
-                return;
-            }
-            
-            const totalWithoutFees = amount * price;
-            const binanceFee = totalWithoutFees * 0.005; // 0.5% de comisión de Binance
-            const transactionFee = totalWithoutFees * 0.01; // 1% de comisión por transacción
-            
-            let totalAmount, profit;
-            
-            if (type === 'buy') {
-                totalAmount = totalWithoutFees + binanceFee + transactionFee;
-                profit = (amount * currentUSDTPrice) - totalAmount;
-            } else {
-                totalAmount = totalWithoutFees - binanceFee - transactionFee;
-                profit = totalAmount - (amount * currentUSDTPrice);
-            }
-            
-            // Mostrar resultados
-            document.getElementById('total-without-fees').textContent = `${totalWithoutFees.toFixed(2)} Bs`;
-            document.getElementById('binance-fee').textContent = `${binanceFee.toFixed(2)} Bs`;
-            document.getElementById('transaction-fee').textContent = `${transactionFee.toFixed(2)} Bs`;
-            document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)} Bs`;
-            document.getElementById('profit').textContent = `${profit.toFixed(2)} Bs`;
-            
-            // Colorear la ganancia según sea positiva o negativa
-            const profitElement = document.getElementById('profit');
-            if (profit > 0) {
-                profitElement.style.color = 'var(--success)';
-            } else if (profit < 0) {
-                profitElement.style.color = 'var(--danger)';
-            } else {
-                profitElement.style.color = 'var(--text)';
-            }
-            
-            resultsSection.classList.remove('hidden');
-        }
     </script>
 </body>
-                                           </html>
+</html>
