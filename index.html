@@ -289,72 +289,10 @@
             <!-- Pestaña de Depósito Bancario -->
             <div class="tab-content" id="deposit-tab">
                 <div class="info-box">
-                    Calcula la conversión desde depósito bancario hasta USDT, considerando todas las comisiones
+                    
                 </div>
                 
-                <div class="form-group">
-                    <label for="deposit-amount">Monto a depositar (Bs):</label>
-                    <div class="input-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <input type="number" id="deposit-amount" min="0" step="0.01" placeholder="Ej: 100000" value="100000">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="transfer-fee">Comisión por transferencia (%):</label>
-                    <div class="input-icon">
-                        <i class="fas fa-percentage"></i>
-                        <input type="number" id="transfer-fee" min="0" step="0.01" placeholder="Ej: 5" value="5">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="purchase-price">Precio de compra USDT (Bs):</label>
-                    <div class="input-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                        <input type="number" id="purchase-price" min="0" step="0.01" placeholder="Ej: 245" value="245">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="purchase-fee">Comisión por compra (USDT):</label>
-                    <div class="input-icon">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <input type="number" id="purchase-fee" min="0" step="0.01" placeholder="Ej: 0.05" value="0.05">
-                    </div>
-                </div>
-                
-                <button id="calculate-deposit-btn">Calcular conversión</button>
-                
-                <div class="results" id="deposit-results" style="display: none;">
-                    <div class="result-title">Resultados:</div>
-                    <div class="result-item">
-                        <span>Monto depositado:</span>
-                        <span id="deposited-amount">0.00 Bs</span>
-                    </div>
-                    <div class="result-item">
-                        <span>Comisión por transferencia:</span>
-                        <span class="negative" id="transfer-fee-amount">-0.00 Bs</span>
-                    </div>
-                    <div class="result-item">
-                        <span>Saldo después de comisión:</span>
-                        <span id="balance-after-fee">0.00 Bs</span>
-                    </div>
-                    <div class="result-item">
-                        <span>USDT disponibles para compra:</span>
-                        <span id="available-usdt">0.00 USDT</span>
-                    </div>
-                    <div class="result-item">
-                        <span>Comisión por compra:</span>
-                        <span class="negative" id="purchase-fee-amount">-0.00 USDT</span>
-                    </div>
-                    <div class="result-item">
-                        <span>USDT finales:</span>
-                        <span id="final-usdt">0.00 USDT</span>
-                    </div>
-                </div>
-                
-                <p class="commission-note">Nota: Esta calculadora considera el proceso completo desde el depósito bancario hasta la compra de USDT</p>
+                <p class="commission-note">Nota: Esta calculadora considera el proceso completo desde el depósito bancario hasta la 
             </div>
         </div>
     </div>
