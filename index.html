@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora P2P Binance</title>
+    <style>
+        :root {
+            --primary: #f0b90b;
+            --secondary: #1e2026;
+            --accent: #0c0f15;
+            --text: #f8f9fa;
+            --border: #2b3139;
+            --success: #00a57b;
+            --danger: #f84960;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--accent);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .price-info {
+            background-color: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price-info span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-weight: bold;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .tab.active {
+            opacity: 1;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background-color: var(--secondary);
+            color: var(--text);
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #d6a40c;
+        }
+        
+        .results {
+            margin-top: 30px;
+            background-color: var(--secondary);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .update-btn {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora P2P Binance</h1>
+            <p>Calcula tus ganancias y comisiones en transacciones P2P</p>
+        </header>
+        
+        <div class="price-info">
+            <div>Precio actual del USDT: <span id="current-price">Cargando...</span></div>
+            <button id="update-price" class="update-btn">Actualizar precio</button>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" data-tab="buy">Comprar</button>
+            <button class="tab" data-tab="sell">Vender</button>
+            <button class="tab" data-tab="create-ad">Crear Anuncio</button>
+        </div>
+        
+        <div id="buy-form" class="form-content">
+            <div class="form-group">
+                <label for="buy-amount">Cantidad a comprar (USDT)</label>
+                <input type="number" id="buy-amount" placeholder="Ej: 100" min="0">
+            </div>
+            <div class="form-group">
+                <label for="buy-price">Precio por USDT (Bs)</label>
+                <input type="number" id="buy-price" placeholder="Precio en bolívares" min="0" step="0.01">
+            </div>
+            <button id="calculate-buy">Calcular compra</button>
+        </div>
+        
+        <div id="sell-form" class="form-content hidden">
+            <div class="form-group">
+                <label for="sell-amount">Cantidad a vender (USDT)</label>
+                <input type="number" id="sell-amount" placeholder="Ej: 100" min="0">
+            </div>
+            <div class="form-group">
+                <label for="sell-price">Precio por USDT (Bs)</label>
+                <input type="number" id="sell-price" placeholder="Precio en bolívares" min="0" step="0.01">
+            </div>
+            <button id="calculate-sell">Calcular venta</button>
+        </div>
+        
+        <div id="create-ad-form" class="form-content hidden">
+            <div class="form-group">
+                <label for="ad-type">Tipo de anuncio</label>
+                <select id="ad-type">
+                    <option value="buy">Comprar USDT</option>
+                    <option value="sell">Vender USDT</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ad-amount">Cantidad total (USDT)</label>
+                <input type="number" id="ad-amount" placeholder="Ej: 1000" min="0">
+            </div>
+            <div class="form-group">
+                <label for="ad-price">Precio por USDT (Bs)</label>
+                <input type="number" id="ad-price" placeholder="Precio en bolívares" min="0" step="0.01">
+            </div>
+            <button id="calculate-ad">Calcular comisiones</button>
+        </div>
+        
+        <div id="results" class="results hidden">
+            <h2>Resultados de la transacción</h2>
+            <div class="result-item">
+                <span>Total sin comisiones:</span>
+                <span id="total-without-fees">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Comisión de Binance (0.5%):</span>
+                <span id="binance-fee">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Comisión por transacción:</span>
+                <span id="transaction-fee">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Total a recibir/pagar:</span>
+                <span id="total-amount">0.00 Bs</span>
+            </div>
+            <div class="result-item">
+                <span>Ganancia estimada:</span>
+                <span id="profit">0.00 Bs</span>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Esta calculadora es solo para fines informativos. Los precios y comisiones pueden variar.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Precio actual del USDT en bolívares (simulado)
+        let currentUSDTPrice = 38.5;
+        
+        // Elementos DOM
+        const currentPriceElement = document.getElementById('current-price');
+        const updatePriceButton = document.getElementById('update-price');
+        const tabs = document.querySelectorAll('.tab');
+        const formContents = document.querySelectorAll('.form-content');
+        const resultsSection = document.getElementById('results');
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar precio actual
+            currentPriceElement.textContent = `${currentUSDTPrice} Bs`;
+            
+            // Configurar event listeners para las pestañas
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Actualizar pestañas activas
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mostrar formulario correspondiente
+                    formContents.forEach(form => form.classList.add('hidden'));
+                    document.getElementById(`${tabId}-form`).classList.remove('hidden');
+                    
+                    // Ocultar resultados
+                    resultsSection.classList.add('hidden');
+                });
+            });
+            
+            // Botón para actualizar precio (simulado)
+            updatePriceButton.addEventListener('click', function() {
+                // Simular una pequeña variación en el precio
+                const variation = (Math.random() - 0.5) * 0.5;
+                currentUSDTPrice = parseFloat((currentUSDTPrice + variation).toFixed(2));
+                currentPriceElement.textContent = `${currentUSDTPrice} Bs`;
+                
+                alert('Precio actualizado correctamente');
+            });
+            
+            // Configurar calculadoras
+            document.getElementById('calculate-buy').addEventListener('click', function() {
+                calculateTransaction('buy');
+            });
+            
+            document.getElementById('calculate-sell').addEventListener('click', function() {
+                calculateTransaction('sell');
+            });
+            
+            document.getElementById('calculate-ad').addEventListener('click', function() {
+                calculateAd();
+            });
+        });
+        
+        // Función para calcular transacciones de compra/venta
+        function calculateTransaction(type) {
+            const amount = parseFloat(document.getElementById(`${type}-amount`).value);
+            const price = parseFloat(document.getElementById(`${type}-price`).value);
+            
+            if (!amount || !price || amount <= 0 || price <= 0) {
+                alert('Por favor, ingresa valores válidos');
+                return;
+            }
+            
+            const totalWithoutFees = amount * price;
+            const binanceFee = totalWithoutFees * 0.005; // 0.5% de comisión de Binance
+            const transactionFee = totalWithoutFees * 0.01; // 1% de comisión por transacción
+            
+            let totalAmount, profit;
+            
+            if (type === 'buy') {
+                totalAmount = totalWithoutFees + binanceFee + transactionFee;
+                profit = 0; // No hay ganancia al comprar
+            } else {
+                totalAmount = totalWithoutFees - binanceFee - transactionFee;
+                profit = totalAmount - (amount * currentUSDTPrice);
+            }
+            
+            // Mostrar resultados
+            document.getElementById('total-without-fees').textContent = `${totalWithoutFees.toFixed(2)} Bs`;
+            document.getElementById('binance-fee').textContent = `${binanceFee.toFixed(2)} Bs`;
+            document.getElementById('transaction-fee').textContent = `${transactionFee.toFixed(2)} Bs`;
+            document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)} Bs`;
+            document.getElementById('profit').textContent = `${profit.toFixed(2)} Bs`;
+            
+            // Colorear la ganancia según sea positiva o negativa
+            const profitElement = document.getElementById('profit');
+            if (profit > 0) {
+                profitElement.style.color = 'var(--success)';
+            } else if (profit < 0) {
+                profitElement.style.color = 'var(--danger)';
+            } else {
+                profitElement.style.color = 'var(--text)';
+            }
+            
+            resultsSection.classList.remove('hidden');
+        }
+        
+        // Función para calcular comisiones al crear un anuncio
+        function calculateAd() {
+            const type = document.getElementById('ad-type').value;
+            const amount = parseFloat(document.getElementById('ad-amount').value);
+            const price = parseFloat(document.getElementById('ad-price').value);
+            
+            if (!amount || !price || amount <= 0 || price <= 0) {
+                alert('Por favor, ingresa valores válidos');
+                return;
+            }
+            
+            const totalWithoutFees = amount * price;
+            const binanceFee = totalWithoutFees * 0.005; // 0.5% de comisión de Binance
+            const transactionFee = totalWithoutFees * 0.01; // 1% de comisión por transacción
+            
+            let totalAmount, profit;
+            
+            if (type === 'buy') {
+                totalAmount = totalWithoutFees + binanceFee + transactionFee;
+                profit = (amount * currentUSDTPrice) - totalAmount;
+            } else {
+                totalAmount = totalWithoutFees - binanceFee - transactionFee;
+                profit = totalAmount - (amount * currentUSDTPrice);
+            }
+            
+            // Mostrar resultados
+            document.getElementById('total-without-fees').textContent = `${totalWithoutFees.toFixed(2)} Bs`;
+            document.getElementById('binance-fee').textContent = `${binanceFee.toFixed(2)} Bs`;
+            document.getElementById('transaction-fee').textContent = `${transactionFee.toFixed(2)} Bs`;
+            document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)} Bs`;
+            document.getElementById('profit').textContent = `${profit.toFixed(2)} Bs`;
+            
+            // Colorear la ganancia según sea positiva o negativa
+            const profitElement = document.getElementById('profit');
+            if (profit > 0) {
+                profitElement.style.color = 'var(--success)';
+            } else if (profit < 0) {
+                profitElement.style.color = 'var(--danger)';
+            } else {
+                profitElement.style.color = 'var(--text)';
+            }
+            
+            resultsSection.classList.remove('hidden');
+        }
+    </script>
+</body>
+                                           </html>
