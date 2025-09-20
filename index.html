@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadoras de Conversión - Gastonda</title>
+    <title>Calculadora de Conversión USD a USDT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -32,9 +32,13 @@
             min-height: 100vh;
         }
         
-        .main-container {
+        .container {
             max-width: 800px;
             margin: 0 auto;
+            background-color: var(--binance-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
         
         .header {
@@ -42,8 +46,7 @@
             padding: 20px;
             display: flex;
             align-items: center;
-            border-radius: 8px 8px 0 0;
-            margin-bottom: 0;
+            border-bottom: 1px solid #2b2f3a;
         }
         
         .logo {
@@ -84,11 +87,8 @@
             border-bottom: 2px solid var(--binance-yellow);
         }
         
-        .calculator-container {
-            background-color: var(--binance-gray);
-            border-radius: 0 0 8px 8px;
+        .content {
             padding: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
         
         .tab-content {
@@ -99,27 +99,8 @@
             display: block;
         }
         
-        /* Estilos para la calculadora USD a USDT */
-        .section {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--binance-medium-gray);
-        }
-        
-        .section-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--binance-yellow);
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title span {
-            margin-left: 8px;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
+        .form-group {
+            margin-bottom: 20px;
         }
         
         label {
@@ -144,75 +125,6 @@
             border-color: var(--binance-yellow);
         }
         
-        .result {
-            background-color: var(--binance-black);
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 10px;
-            font-weight: bold;
-            color: var(--binance-green);
-        }
-        
-        .negative {
-            color: var(--binance-red);
-        }
-        
-        .step-indicator {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background-color: var(--binance-yellow);
-            color: var(--binance-black);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        
-        .operation-selector {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            background-color: var(--binance-black);
-            border-radius: 4px;
-            padding: 8px;
-        }
-        
-        .operation-label {
-            margin-right: 10px;
-            font-size: 14px;
-            color: #9aa2b1;
-        }
-        
-        .operation-button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-right: 8px;
-            transition: all 0.3s;
-        }
-        
-        .operation-button.active {
-            background-color: var(--binance-yellow);
-            color: var(--binance-black);
-        }
-        
-        .operation-button.inactive {
-            background-color: var(--binance-medium-gray);
-            color: var(--binance-light-gray);
-        }
-        
-        .explanation {
-            font-size: 12px;
-            color: #9aa2b1;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        /* Estilos para la calculadora P2P */
         .input-icon {
             position: relative;
         }
@@ -240,7 +152,6 @@
             font-size: 16px;
             font-weight: 600;
             transition: background-color 0.3s;
-            margin-top: 10px;
         }
         
         button:hover {
@@ -281,6 +192,10 @@
             color: var(--binance-green);
         }
         
+        .negative {
+            color: var(--binance-red);
+        }
+        
         .commission-note {
             margin-top: 15px;
             font-size: 0.9em;
@@ -297,8 +212,90 @@
             font-size: 0.9em;
         }
         
+        /* Estilos para la segunda calculadora */
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2b2f3a;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--binance-yellow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title span {
+            margin-left: 8px;
+        }
+        
+        .result {
+            background-color: var(--binance-dark-gray);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--binance-green);
+        }
+        
+        .step-indicator {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-color: var(--binance-yellow);
+            color: var(--binance-black);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .operation-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: var(--binance-dark-gray);
+            border-radius: 4px;
+            padding: 8px;
+        }
+        
+        .operation-label {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .operation-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .operation-button.active {
+            background-color: var(--binance-yellow);
+            color: var(--binance-black);
+        }
+        
+        .operation-button.inactive {
+            background-color: var(--binance-gray);
+            color: var(--binance-light-gray);
+        }
+        
+        .explanation {
+            font-size: 12px;
+            color: #9aa2b1;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
         @media (max-width: 480px) {
-            .calculator-container {
+            .container {
                 padding: 15px;
             }
             
@@ -310,45 +307,57 @@
                 padding: 10px;
             }
             
-            .tab {
-                padding: 12px 15px;
-                font-size: 14px;
+            .operation-selector {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .operation-button {
+                margin-top: 8px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
+    <div class="container">
         <div class="header">
             <div class="logo">
                 <i class="fas fa-coins logo-icon"></i>
             </div>
-            <h1>Calculadoras de Conversión</h1>
+            <h1>Calculadora de Conversión USD a USDT</h1>
         </div>
         
         <div class="tabs">
-            <div class="tab active" data-tab="usd-to-usdt">USD a USDT</div>
+            <div class="tab active" data-tab="conversion">Conversión USD a USDT</div>
             <div class="tab" data-tab="p2p">Compra/Venta P2P</div>
         </div>
         
-        <div class="calculator-container">
-            <!-- Pestaña de USD a USDT -->
-            <div class="tab-content active" id="usd-to-usdt-tab">
-                <h1>Calculadora de Conversión USD a USDT</h1>
+        <div class="content">
+            <!-- Pestaña de Conversión USD a USDT -->
+            <div class="tab-content active" id="conversion-tab">
+                <div class="info-box">
+                    Calcula tu conversión de USD a USDT considerando comisiones bancarias y de Binance
+                </div>
                 
                 <div class="section">
                     <h2 class="section-title"><div class="step-indicator">1</div><span>Compra de Dólares</span></h2>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="usd-amount">Monto en USD a comprar:</label>
-                        <input type="number" id="usd-amount" min="0" step="0.01" placeholder="Ej: 1000">
+                        <div class="input-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                            <input type="number" id="usd-amount" min="0" step="0.01" placeholder="Ej: 1000" value="1000">
+                        </div>
                     </div>
                 </div>
                 
                 <div class="section">
                     <h2 class="section-title"><div class="step-indicator">2</div><span>Estimado en Bolívares (sin comisión)</span></h2>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="exchange-rate">Tasa de cambio USD/BS:</label>
-                        <input type="number" id="exchange-rate" min="0" step="0.01" placeholder="Ej: 35.50">
+                        <div class="input-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                            <input type="number" id="exchange-rate" min="0" step="0.01" placeholder="Ej: 35.50" value="35.5">
+                        </div>
                     </div>
                     <div class="result" id="bs-result">0.00 BS</div>
                 </div>
@@ -367,9 +376,12 @@
                         <button id="divide-btn" class="operation-button inactive">División</button>
                     </div>
                     
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="usdt-rate">Precio de cambio USD/USDT:</label>
-                        <input type="number" id="usdt-rate" min="0" step="0.01" placeholder="Ej: 0.98" value="1.00">
+                        <div class="input-icon">
+                            <i class="fas fa-coins"></i>
+                            <input type="number" id="usdt-rate" min="0" step="0.01" placeholder="Ej: 0.98" value="1.00">
+                        </div>
                     </div>
                     
                     <div class="explanation" id="operation-explanation">
@@ -386,9 +398,12 @@
                 
                 <div class="section">
                     <h2 class="section-title"><div class="step-indicator">6</div><span>Precio estimado de venta</span></h2>
-                    <div class="input-group">
+                    <div class="form-group">
                         <label for="sell-price">Precio de venta USDT/BS:</label>
-                        <input type="number" id="sell-price" min="0" step="0.01" placeholder="Ej: 36.00">
+                        <div class="input-icon">
+                            <i class="fas fa-arrow-up"></i>
+                            <input type="number" id="sell-price" min="0" step="0.01" placeholder="Ej: 36.00" value="36.0">
+                        </div>
                     </div>
                 </div>
                 
@@ -402,13 +417,11 @@
             
             <!-- Pestaña de Compra/Venta P2P -->
             <div class="tab-content" id="p2p-tab">
-                <h1>Calculadora P2P USDT/Bolívares</h1>
-                
                 <div class="info-box">
                     Calcula tus ganancias en operaciones de compra y venta de USDT en el mercado P2P
                 </div>
                 
-                <div class="input-group">
+                <div class="form-group">
                     <label for="usdt-amount">Cantidad de USDT a operar:</label>
                     <div class="input-icon">
                         <i class="fas fa-coins"></i>
@@ -416,7 +429,7 @@
                     </div>
                 </div>
                 
-                <div class="input-group">
+                <div class="form-group">
                     <label for="sell-price-p2p">Precio de venta (Bs/USDT):</label>
                     <div class="input-icon">
                         <i class="fas fa-arrow-up"></i>
@@ -424,7 +437,7 @@
                     </div>
                 </div>
                 
-                <div class="input-group">
+                <div class="form-group">
                     <label for="buy-price-p2p">Precio de compra (Bs/USDT):</label>
                     <div class="input-icon">
                         <i class="fas fa-arrow-down"></i>
@@ -434,7 +447,7 @@
                 
                 <button id="calculate-p2p-btn">Calcular ganancias</button>
                 
-                <div class="results" id="p2p-results">
+                <div class="results" id="p2p-results" style="display: none;">
                     <div class="result-title">Resultados:</div>
                     <div class="result-item">
                         <span>Ingresos por venta:</span>
@@ -483,7 +496,8 @@
                 });
             });
             
-            // Calculadora de USD a USDT
+            // ===== CALCULADORA DE CONVERSIÓN USD A USDT =====
+            // Obtener todos los elementos de entrada
             const usdAmountInput = document.getElementById('usd-amount');
             const exchangeRateInput = document.getElementById('exchange-rate');
             const usdtRateInput = document.getElementById('usdt-rate');
@@ -528,18 +542,7 @@
                     operationExplanation.textContent = 'Cuando 1 USDT = ' + (parseFloat(usdtRateInput.value) || 1.00) + ' USD (división)';
                 }
                 
-                calculateUSDToUSDT();
+                calculateConversion();
             }
             
-            // Función principal para realizar todos los cálculos de USD a USDT
-            function calculateUSDToUSDT() {
-                // Obtener valores de entrada
-                const usdAmount = parseFloat(usdAmountInput.value) || 0;
-                const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
-                const usdtRate = parseFloat(usdtRateInput.value) || 1;
-                const sellPrice = parseFloat(sellPriceInput.value) || 0;
-                
-                // Actualizar explicación de operación
-                if (operationType === 'multiply') {
-                    operationExplanation.textContent = 'Cuando 1 USD = ' + formatNumber(usdtRate) + ' USDT (multiplicación)';
-                } 
+            // Fun
