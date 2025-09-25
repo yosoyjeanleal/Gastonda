@@ -66,14 +66,14 @@
             <!-- TAB 1: P2P -->
             <div class="tab-content active" id="trade-tab">
                 <div class="info-box">Calcula tus ganancias en operaciones de compra y venta de USDT en el mercado P2P</div>
-                <div class="form-group"><label for="usdt-amount">Cantidad de USDT:</label><input type="number" id="usdt-amount" value="100"></div>
-                <div class="form-group"><label for="sell-price">Precio de venta (Bs/USDT):</label><input type="number" id="sell-price" value="255"></div>
-                <div class="form-group"><label for="buy-price">Precio de compra (Bs/USDT):</label><input type="number" id="buy-price" value="245"></div>
+                <div class="form-group"><label for="usdt-amount">Cantidad de USDT:</label><input type="number" id="usdt-amount" value=""></div>
+                <div class="form-group"><label for="sell-price">Precio de venta (Bs/USDT):</label><input type="number" id="sell-price" value=""></div>
+                <div class="form-group"><label for="buy-price">Precio de compra (Bs/USDT):</label><input type="number" id="buy-price" value=""></div>
                 <div class="results" id="results-trade" style="display:none;">
                     <div class="result-title">Resultados:</div>
                     <div class="result-item"><span>Ingresos por venta:</span><span id="sale-income"></span></div>
                     <div class="result-item"><span>Comisión por venta (0.05 USDT):</span><span id="sale-commission" class="negative"></span></div>
-                    <div class="result-item"><span>Comisión por anuncio (0.2%):</span><span id="ad-commission" class="negative"></span></div>
+                    <div class="result-item"><span>Comisión por anuncio (0.35%):</span><span id="ad-commission" class="negative"></span></div>
                     <div class="result-item"><span>Costo de compra:</span><span id="purchase-cost" class="negative"></span></div>
                     <div class="result-item"><span>Ganancia neta:</span><span id="net-profit"></span></div>
                 </div>
@@ -82,10 +82,10 @@
             <!-- TAB 2: CONVERSIÓN -->
             <div class="tab-content" id="conversion-tab">
                 <div class="info-box">Convierte USD → USDT y estima tu ganancia en Bs. (actualiza en tiempo real)</div>
-                <div class="form-group"><label for="usd-amount">Monto en USD:</label><input type="number" id="usd-amount" value="1000"></div>
-                <div class="form-group"><label for="exchange-rate">Tasa USD/BS:</label><input type="number" id="exchange-rate" value="36"></div>
-                <div class="form-group"><label for="usdt-rate">Precio USD/USDT:</label><input type="number" id="usdt-rate" value="1.00"></div>
-                <div class="form-group"><label for="sell-price2">Precio de venta USDT/BS:</label><input type="number" id="sell-price2" value="37"></div>
+                <div class="form-group"><label for="usd-amount">Monto en USD:</label><input type="number" id="usd-amount" value=""></div>
+                <div class="form-group"><label for="exchange-rate">Tasa USD/BS:</label><input type="number" id="exchange-rate" value=""></div>
+                <div class="form-group"><label for="usdt-rate">Precio USD/USDT:</label><input type="number" id="usdt-rate" value=""></div>
+                <div class="form-group"><label for="sell-price2">Precio de venta USDT/BS:</label><input type="number" id="sell-price2" value=""></div>
                 <div class="results" id="conversion-results" style="display:none;">
                     <div class="result-title">Resultados paso a paso:</div>
                     <div class="result-item"><span>Bolívares iniciales (USD × tasa):</span><span id="bs-result"></span></div>
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(usdt>0&&sell>0&&buy>0){
       let income=usdt*sell;
       let commSale=0.05*sell;
-      let commAd=income*0.002;
+      let commAd=income*0.35;
       let cost=usdt*buy;
       let profit=income-commSale-commAd-cost;
       document.getElementById("sale-income").textContent=income.toFixed(2)+" Bs";
