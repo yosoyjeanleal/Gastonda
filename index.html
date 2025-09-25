@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(usdt>0&&sell>0&&buy>0){
       let income=usdt*sell;
       let commSale=0.05*sell;
-      let commAd=income*0.0035;
+      let commAd=income*0.0020;
       let cost=usdt*buy;
       let profit=income-commSale-commAd-cost;
       document.getElementById("sale-income").textContent=income.toFixed(2)+" Bs";
